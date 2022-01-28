@@ -58,9 +58,15 @@ function game() {
             computerScore += 0.5
         }
     } 
+
+    if (playerScore > computerScore) {
+        finalResult = `You win!  Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+    } else if (playerScore == computerScore) {
+        finalResult = `It's a draw!  Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+    } else if (playerScore < computerScore) {
+        finalResult = `You lose! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+    }
     
-    return `You: ${playerScore}, Computer: ${computerScore}`
+    return finalResult
 
 }
-
-// (thing.slice(0, 11) === "It's a draw")
