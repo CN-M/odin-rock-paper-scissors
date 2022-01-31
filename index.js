@@ -7,8 +7,6 @@ function computerPlay() {
         move = 'paper'
     } else if(randomValue === 2) {
        move = 'scissors'
-    } else {
-        move = 'Invalid choice!'
     }
     return move;
 }
@@ -60,7 +58,7 @@ function game() {
     } 
 
     if (playerScore > computerScore) {
-        finalResult = `You win!  Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+        finalResult = `You win! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
     } else if (playerScore == computerScore) {
         finalResult = `It's a draw!  Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
     } else if (playerScore < computerScore) {
