@@ -11,70 +11,106 @@ function computerPlay() {
     return move;
 }
 
-function playRound(playerChoice, computerSelection) {
-    playerSelection = playerChoice.toLowerCase()
+function playRound(playerSelection, computerSelection) {
     if (playerSelection == computerSelection) {
-        result = `It's a draw! You both picked ${playerSelection}`
+        result = `draw`
+
     // If player wins
     } else if (playerSelection == 'rock' && computerSelection == 'scissors') {
-        result = `You win! ${playerSelection} beats ${computerSelection}`
+        result = `win`
     } else if (playerSelection == 'paper' && computerSelection == 'rock') {
-        result = `You win! ${playerSelection} beats ${computerSelection}`
+        result = `win`
     } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
-        result = `You win! ${playerSelection} beats ${computerSelection}`
+        result = `win`
 
     // If player loses
     } else if (computerSelection == 'rock' && playerSelection == 'scissors') {
-        result = `You lose! ${computerSelection} beats ${playerSelection}`
+        result = `lose`
     } else if (computerSelection == 'paper' && playerSelection == 'rock') {
-        result = `You lose! ${computerSelection} beats ${playerSelection}`
+        result = `lose`
     } else if (computerSelection == 'scissors' && playerSelection == 'paper') {
-        result = `You lose! ${computerSelection} beats ${playerSelection}`
-    } else {
-        result = `Something went wrong. Yours:${playerSelection}, Computer:${computerSelection}.`
-    }
-
-    return result;
-}
-
-function game() {
-    playerScore = 0
-    computerScore = 0
-    for (let i = 0; i < 5; i++) {
-        playerMove = prompt("What's your move?")
-        computerMove = computerPlay()
-        thing = playRound(playerMove, computerMove)
-        if (thing.slice(0, 7) === 'You win') {
-            playerScore++
-            console.log(`You win! ${playerMove} beats ${computerMove}`)
-        } else if (thing.slice(0, 8) === 'You lose') {
-            computerScore++
-            console.log(`You lose! ${computerMove} beats ${playerMove}`)
-        } else {
-            console.log(`It's a draw! You both picked ${playerMove}`)
-            playerScore += 0.5
-            computerScore += 0.5
-        }
-    } 
-
-    if (playerScore > computerScore) {
-        finalResult = `You win! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
-    } else if (playerScore == computerScore) {
-        finalResult = `It's a draw! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
-    } else if (playerScore < computerScore) {
-        finalResult = `You lose! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+        result = `lose`
     }
     
-    return finalResult
+    return result
+}
+
+function game(playerSelection, computerSelection) {
+
+        gamePlayed = playRound(playerSelection, computerSelection)
+        if (gamePlayed === 'win') {
+            msg = `You win! ${playerSelection} beats ${computerSelection}`
+
+            printResult = document.createElement('h2');
+            printResult.classList.add('result');
+            printResult.textContent = msg
+            
+            scoreBoard.appendChild(printResult)
+            
+        } else if (gamePlayed === 'lose') {
+            msg = `You lose! ${computerSelection} beats ${playerSelection}`
+
+            printResult = document.createElement('h2');
+            printResult.classList.add('result');
+            printResult.textContent = msg
+            
+            scoreBoard.appendChild(printResult)
+            
+        } else if (gamePlayed === 'draw') {
+            playerScore += 0.5
+            computerScore += 0.5
+            msg = `It's a draw! You both picked ${playerSelection}`
+
+            printResult = document.createElement('h2');
+            printResult.classList.add('result');
+            printResult.textContent = msg
+
+            scoreBoard.appendChild(printResult)
+        }
+
+    return gamePlayed
 
 }
 
-function move() {
-    // console.log(this.classList.value)
-    playRound(this.classList.value, computerSelection)
+const body = document.querySelector('body');
+body.style.cssText = 'display: flex; flex-direction: column; align-items: center'
 
-}
+const heading = document.createElement('h1');
+heading.textContent = 'Welcome to the Thunder Dome';
+body.appendChild(heading);
 
+const scoreBoard = document.createElement('div');
+scoreBoard.style.cssText = 'border: 1px solid black; padding: 10px; margin: 5px';
+body.appendChild(scoreBoard);
+
+playerScore = 0
+computerScore = 0
 
 const btns = document.querySelectorAll('button');
-btns.forEach(button => button.addEventListener('click', move))
+const jack = btns.forEach(button => button.addEventListener('click', function() {
+    if (playerScore <= 5 && computerScore <= 5) {
+        roundPlayed = game(this.classList.value, computerPlay())
+
+    if (roundPlayed === 'win') {
+        playerScore++
+    } else if (roundPlayed === 'lose') {
+        computerScore++
+    } else if (roundPlayed === 'draw') {
+        playerScore += 0.5
+        computerScore+= 0.5
+    }
+
+    } else {
+        if (playerScore > computerScore) {
+            finalResult = `You win! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+        } else if (playerScore == computerScore) {
+            finalResult = `It's a draw! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+        } else if (playerScore < computerScore) {
+            finalResult = `You lose! Here are the scores --> You: ${playerScore}, Computer: ${computerScore}`
+        } 
+        finalScore = document.createElement('h1');
+        finalScore.style.cssText = 'color: blue; font-weight: 900'
+        finalScore.textContent = finalResult;
+        scoreBoard.appendChild(finalScore)
+    }
+}))
