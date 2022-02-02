@@ -88,7 +88,7 @@ computerScore = 0
 
 const btns = document.querySelectorAll('button');
 const jack = btns.forEach(button => button.addEventListener('click', function() {
-    if (playerScore <= 5 && computerScore <= 5) {
+    if (playerScore < 5 && computerScore < 5) {
         roundPlayed = game(this.classList.value, computerPlay())
 
     if (roundPlayed === 'win') {
